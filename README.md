@@ -2,9 +2,8 @@
 
 This is the reproducibility artifact for the manuscript:
 
-> **MediSSI-Auth: A Self-Sovereign Identity Authentication Framework with Zero-Knowledge Selective Disclosure for Cross-Organizational Electronic Health Records — A Reproducible Benchmark on the NexaEHR Dataset**
+> **MediSSI-Auth: A Self-Sovereign Identity Authentication Framework with Zero-Knowledge Selective Disclosure for Cross-Organizational Electronic Health Records**
 
-The artifact lets a reviewer reproduce every figure, table, and number in §VI of the manuscript on a fresh Ubuntu 24.04 machine with one command.
 
 ## What's in here
 
@@ -63,19 +62,7 @@ Hyperledger Besu is downloaded separately from the Besu releases page (https://g
 
 Expected wall-clock time: **~10 minutes** without ZK trusted-setup, **~45 minutes** with it.
 
-The script runs:
 
-1. **Environment check** — verifies all prerequisites
-2. **Boot Ganache** + deploy 4 Solidity contracts (Stage 5)
-3. **Run all 11 functional tests** (§VI.B) — should all pass
-4. **§VI.D Latency benchmark** (n=30 no-ZK, n=5 with ZK)
-5. **§VI.E Storage measurement**
-6. **§VI.F Nexa comparison**
-7. **§VI.G Sustained-load TPS** (Ganache lower-bound; Besu measurement is a separate step, see below)
-8. **Generate all §VI figures**
-9. **Validate ProVerif model** (`scripts/validate_proverif_model.py`)
-
-After completion, raw measurement data lands in `data/measurements/` and figures in `figures/`.
 
 ## Optional: full ZK run (real circuit)
 
@@ -223,9 +210,6 @@ If you use this artifact, please cite:
 }
 ```
 
-## Contact
-
-Questions, bug reports, reproduction failures: please open an issue at the project's GitHub repository (link in the manuscript's §I.B Reproducibility section).
 
 ---
 
