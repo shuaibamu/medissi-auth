@@ -1,0 +1,85 @@
+# ======================================================================
+# MediSSI-Auth — .gitignore
+# ======================================================================
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg
+*.egg-info/
+.eggs/
+build/_python/
+develop-eggs/
+dist/
+wheels/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# --- Node / Hardhat ---
+node_modules/
+artifacts/
+cache/
+typechain-types/
+coverage/
+.hardhat/
+package-lock.json
+yarn.lock
+
+# --- Circom / snarkjs intermediates ---
+# We keep build/circuits/*.r1cs, *.wasm, *.sym (small, useful)
+# but ignore Powers-of-Tau intermediates beyond the final one we ship.
+build/setup/*.ptau.tmp
+build/setup/contributions/
+*.0001.zkey
+*.0002.zkey
+build/zk_intermediate/
+
+# --- IDE / OS ---
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# --- Local environment overrides ---
+.env
+.env.local
+.env.*.local
+*.local
+
+# --- Logs / runtime ---
+*.log
+logs/
+*.pid
+*.seed
+
+# --- Local Besu / Ganache state ---
+besu/data/
+besu/logs/
+ganache-data/
+*.ipc
+
+# --- Generated outputs from runs (keep figures and processed data) ---
+data/raw/
+data/scratch/
+results/scratch/
+
+# --- Large model files we don't ship by default ---
+# Uncomment if you ever add full proving keys (>50 MB) that exceed GitHub limits.
+# build/setup/pot16_final.ptau
+# build/circuits/selective_disclosure_final.zkey

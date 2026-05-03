@@ -1,0 +1,36 @@
+cff-version: 1.2.0
+title: >-
+  MediSSI-Auth: A Self-Sovereign Identity Authentication Framework
+  with Zero-Knowledge Selective Disclosure for Cross-Organizational
+  Electronic Health Records
+message: >-
+  If you use this software, please cite it using the metadata below.
+type: software
+authors:
+  - given-names: "[MOHD]"
+    family-names: "[SHUAIB]"
+    affiliation: "[JAZAN UNIVERSITY]"
+    # orcid: "https://orcid.org/0000-0001-6657-2587"
+repository-code: "https://github.com/[SHuaib]/medissi-auth"
+abstract: >-
+  MediSSI-Auth is an open-source authentication framework that combines
+  W3C Decentralized Identifiers (DIDs), Verifiable Credentials (VCs),
+  Groth16 zero-knowledge proofs for per-attribute selective disclosure,
+  and a permissioned Hyperledger Besu blockchain. The framework targets
+  cross-organizational electronic health record exchange and is benchmarked
+  against the public NexaEHR dataset.
+keywords:
+  - self-sovereign identity
+  - verifiable credentials
+  - zero-knowledge proofs
+  - groth16
+  - circom
+  - selective disclosure
+  - electronic health records
+  - blockchain
+  - hyperledger besu
+  - hipaa
+  - gdpr
+license: Apache-2.0
+version: "1.0.0"
+date-released: "2026-05-03"

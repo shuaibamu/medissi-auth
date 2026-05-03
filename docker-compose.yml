@@ -1,0 +1,165 @@
+# MediSSI-Auth — 4-node Hyperledger Besu IBFT 2.0 network
+# Stage 1 stub (network skeleton) + Stage 5 expansion points.
+#
+# IMPORTANT: This file references network artefacts (genesis.json, validator keys)
+# that do not yet exist. Generate them BEFORE first `docker compose up` via:
+#
+#   docker run --rm -v $(pwd):/work hyperledger/besu:24.10.0 \
+#     operator generate-blockchain-config \
+#     --config-file=/work/network/ibftConfigFile.json \
+#     --to=/work/network/networkFiles \
+#     --private-key-file-name=key
+#
+# This produces ./network/networkFiles/{genesis.json, keys/}.
+# See Stage 5 §5.1 of the production handbook for the ibftConfigFile.json template.
+
+services:
+
+  besu-validator-1:
+    image: hyperledger/besu:24.10.0
+    container_name: medissi-besu-1
+    restart: unless-stopped
+    environment:
+      - BESU_LOGGING=INFO
+    volumes:
+      - ./network/genesis.json:/config/genesis.json:ro
+      - ./network/keys/node1:/keys:ro
+      - besu-data-1:/data
+    ports:
+      - "8545:8545"   # JSON-RPC HTTP
+      - "8546:8546"   # JSON-RPC WebSocket
+      - "30303:30303" # P2P (TCP)
+      - "30303:30303/udp" # P2P (UDP)
+    command:
+      - --data-path=/data
+      - --genesis-file=/config/genesis.json
+      - --node-private-key-file=/keys/key
+      - --rpc-http-enabled
+      - --rpc-http-host=0.0.0.0
+      - --rpc-http-cors-origins=all
+      - --rpc-http-api=ETH,NET,IBFT,WEB3,ADMIN,DEBUG,TXPOOL
+      - --rpc-ws-enabled
+      - --rpc-ws-host=0.0.0.0
+      - --host-allowlist=*
+      - --min-gas-price=0
+      - --p2p-host=0.0.0.0
+      - --p2p-port=30303
+    networks:
+      - medissi-net
+
+  besu-validator-2:
+    image: hyperledger/besu:24.10.0
+    container_name: medissi-besu-2
+    restart: unless-stopped
+    volumes:
+      - ./network/genesis.json:/config/genesis.json:ro
+      - ./network/keys/node2:/keys:ro
+      - besu-data-2:/data
+    ports:
+      - "8547:8545"
+      - "30304:30303"
+      - "30304:30303/udp"
+    command:
+      - --data-path=/data
+      - --genesis-file=/config/genesis.json
+      - --node-private-key-file=/keys/key
+      - --bootnodes=enode://NODE1_ENODE@besu-validator-1:30303
+      - --rpc-http-enabled
+      - --rpc-http-host=0.0.0.0
+      - --rpc-http-api=ETH,NET,IBFT,WEB3
+      - --host-allowlist=*
+      - --min-gas-price=0
+      - --p2p-host=0.0.0.0
+      - --p2p-port=30303
+    depends_on:
+      - besu-validator-1
+    networks:
+      - medissi-net
+
+  besu-validator-3:
+    image: hyperledger/besu:24.10.0
+    container_name: medissi-besu-3
+    restart: unless-stopped
+    volumes:
+      - ./network/genesis.json:/config/genesis.json:ro
+      - ./network/keys/node3:/keys:ro
+      - besu-data-3:/data
+    ports:
+      - "8548:8545"
+      - "30305:30303"
+      - "30305:30303/udp"
+    command:
+      - --data-path=/data
+      - --genesis-file=/config/genesis.json
+      - --node-private-key-file=/keys/key
+      - --bootnodes=enode://NODE1_ENODE@besu-validator-1:30303
+      - --rpc-http-enabled
+      - --rpc-http-host=0.0.0.0
+      - --rpc-http-api=ETH,NET,IBFT,WEB3
+      - --host-allowlist=*
+      - --min-gas-price=0
+      - --p2p-host=0.0.0.0
+      - --p2p-port=30303
+    depends_on:
+      - besu-validator-1
+    networks:
+      - medissi-net
+
+  besu-validator-4:
+    image: hyperledger/besu:24.10.0
+    container_name: medissi-besu-4
+    restart: unless-stopped
+    volumes:
+      - ./network/genesis.json:/config/genesis.json:ro
+      - ./network/keys/node4:/keys:ro
+      - besu-data-4:/data
+    ports:
+      - "8549:8545"
+      - "30306:30303"
+      - "30306:30303/udp"
+    command:
+      - --data-path=/data
+      - --genesis-file=/config/genesis.json
+      - --node-private-key-file=/keys/key
+      - --bootnodes=enode://NODE1_ENODE@besu-validator-1:30303
+      - --rpc-http-enabled
+      - --rpc-http-host=0.0.0.0
+      - --rpc-http-api=ETH,NET,IBFT,WEB3
+      - --host-allowlist=*
+      - --min-gas-price=0
+      - --p2p-host=0.0.0.0
+      - --p2p-port=30303
+    depends_on:
+      - besu-validator-1
+    networks:
+      - medissi-net
+
+  # --- Stage 6 expansion points (commented out until Stage 6) ---
+  #
+  # patient-agent:
+  #   build: ./src/agents/patient
+  #   ports: ["8001:8000"]
+  #   depends_on: [besu-validator-1]
+  #   networks: [medissi-net]
+  #
+  # issuer-agent:
+  #   build: ./src/agents/issuer
+  #   ports: ["8002:8000"]
+  #   depends_on: [besu-validator-1]
+  #   networks: [medissi-net]
+  #
+  # verifier-agent:
+  #   build: ./src/agents/verifier
+  #   ports: ["8003:8000"]
+  #   depends_on: [besu-validator-1]
+  #   networks: [medissi-net]
+
+volumes:
+  besu-data-1:
+  besu-data-2:
+  besu-data-3:
+  besu-data-4:
+
+networks:
+  medissi-net:
+    driver: bridge
