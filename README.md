@@ -195,25 +195,6 @@ Code: Apache-2.0
 Data and documentation: CC-BY-4.0  
 NexaEHR dataset: governed by IEEE DataPort terms (DOI 10.21227/zg38-0317)
 
-## Citation
-
-If you use this artifact, please cite:
-
-```bibtex
-@article{medissi-auth-2026,
-  title   = {MediSSI-Auth: A Self-Sovereign Identity Authentication Framework
-             with Zero-Knowledge Selective Disclosure for Cross-Organizational
-             Electronic Health Records},
-  journal = {Computers in Biology and Medicine},
-  year    = {2026},
-  note    = {Reproducibility artifact: zenodo:<DOI-pending>}
-}
-```
-
-
----
-
-**Artifact integrity check:** `MANIFEST.txt` lists SHA-256 hashes of every file. Verify with:
 
 ```bash
 ./scripts/verify_artifacts.sh
